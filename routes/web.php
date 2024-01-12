@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AccountController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,10 +34,19 @@ Route::get('/transcribe', function () {
     return Inertia::render('Transcribe');
 })->middleware(['auth', 'verified'])->name('transcribe');
 
+//auth
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+//Account
+
+Route::middleware('auth')->group(function () {
+    Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+});
+
 
 require __DIR__.'/auth.php';
