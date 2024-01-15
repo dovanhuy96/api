@@ -18,32 +18,34 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('index', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('index');
 });
+// Route::get('/', function () {
+//     return Inertia::render('index', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+//Home routes
 Route::get('/transcribe', function () {
     return Inertia::render('Transcribe');
 })->middleware(['auth', 'verified'])->name('transcribe');
 
-//auth
-
+//Profile routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//Account
-
+//Account routes
 Route::middleware('auth')->group(function () {
     Route::get('/account', [AccountController::class, 'index'])->name('account.index');
 });
